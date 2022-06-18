@@ -2,7 +2,6 @@ package arthursoares.dev.mathapi.validations;
 
 import arthursoares.dev.mathapi.models.requests.QuantifiableNumbers;
 import arthursoares.dev.mathapi.models.responses.BaseResponse;
-import java.util.ArrayList;
 import java.util.Arrays;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
