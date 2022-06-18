@@ -3,7 +3,6 @@ package arthursoares.dev.mathapi.controllers;
 import arthursoares.dev.mathapi.handlers.OperationHandler;
 import arthursoares.dev.mathapi.models.responses.Numbers;
 import arthursoares.dev.mathapi.models.requests.QuantifiableNumbers;
-import arthursoares.dev.mathapi.models.responses.ApiError;
 import arthursoares.dev.mathapi.models.responses.Average;
 import arthursoares.dev.mathapi.models.responses.Median;
 import arthursoares.dev.mathapi.models.responses.Percentile;
