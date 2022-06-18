@@ -1,12 +1,12 @@
 package arthursoares.dev.mathapi.handlers;
 
-import arthursoares.dev.mathapi.models.NumberList;
-import arthursoares.dev.mathapi.models.QuantifiableNumberList;
+import arthursoares.dev.mathapi.models.requests.Numbers;
+import arthursoares.dev.mathapi.models.requests.QuantifiableNumbers;
 import java.util.Collections;
 import java.util.List;
 
 public class OperationHandler {
-    public static List<Long> getMinNumbers(QuantifiableNumberList quantifiableNumberList)
+    public static List<Double> getMinNumbers(QuantifiableNumbers quantifiableNumberList)
     {
         Collections.sort(quantifiableNumberList.numbers);
         
@@ -14,7 +14,7 @@ public class OperationHandler {
             quantifiableNumberList.quantifier);
     }
     
-    public static List<Long> getMaxNumbers(QuantifiableNumberList quantifiableNumberList)
+    public static List<Double> getMaxNumbers(QuantifiableNumbers quantifiableNumberList)
     {
         Collections.reverse(quantifiableNumberList.numbers);
         
@@ -22,14 +22,14 @@ public class OperationHandler {
             quantifiableNumberList.quantifier);
     }
     
-    public static Double getNumbersAverage(NumberList numberList)
+    public static Double getNumbersAverage(Numbers numberList)
     {
-        var sum = numberList.numbers.stream().reduce((long) 0, (a, b) -> a + b);
+        var sum = numberList.numbers.stream().reduce(0.0, (a, b) -> a + b);
         
         return sum * 1.0 / numberList.numbers.size();
     }
     
-    public static Double getNumbersMedian(NumberList numberList)
+    public static Double getNumbersMedian(Numbers numberList)
     {
         Collections.sort(numberList.numbers);
         var listSize = numberList.numbers.size();
@@ -43,7 +43,7 @@ public class OperationHandler {
         return numberList.numbers.get(listSize/2) * 1.0;
     }
     
-    public static Long getNumbersPercentile(QuantifiableNumberList quantifiableNumberList)
+    public static Double getNumbersPercentile(QuantifiableNumbers quantifiableNumberList)
     {
         Collections.sort(quantifiableNumberList.numbers);
         var percentileIndex = (int) Math.round(

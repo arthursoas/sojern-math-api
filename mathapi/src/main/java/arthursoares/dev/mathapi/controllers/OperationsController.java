@@ -1,9 +1,14 @@
 package arthursoares.dev.mathapi.controllers;
 
 import arthursoares.dev.mathapi.handlers.OperationHandler;
-import arthursoares.dev.mathapi.models.NumberList;
-import arthursoares.dev.mathapi.models.QuantifiableNumberList;
-import java.util.List;
+import arthursoares.dev.mathapi.models.responses.Numbers;
+import arthursoares.dev.mathapi.models.requests.QuantifiableNumbers;
+import arthursoares.dev.mathapi.models.responses.ApiError;
+import arthursoares.dev.mathapi.models.responses.Average;
+import arthursoares.dev.mathapi.models.responses.Median;
+import arthursoares.dev.mathapi.models.responses.Percentile;
+import arthursoares.dev.mathapi.validations.NumbersValidations;
+import arthursoares.dev.mathapi.validations.QuantifiableNumbersValidations;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,33 +21,73 @@ import org.springframework.web.bind.annotation.RestController;
 public class OperationsController
 {   
     @PostMapping("/min")
-    public ResponseEntity<List<Long>> findMinNumbers(@Validated @RequestBody QuantifiableNumberList body)
+    public ResponseEntity<Numbers> findMinNumbers(@Validated @RequestBody QuantifiableNumbers body)
     {
-        return ResponseEntity.ok().body(OperationHandler.getMinNumbers(body));
+        var response = new Numbers();
+        QuantifiableNumbersValidations.quantifierSmallerThanNumbersSize(body, response);
+        if (response.error != null)
+        {
+            return ResponseEntity.badRequest().body(response);
+        }
+        
+        response.numbers = OperationHandler.getMinNumbers(body);
+        return ResponseEntity.ok().body(response);
     }
     
     @PostMapping("/max")
-    public ResponseEntity<List<Long>> findMaxNumbers(@Validated @RequestBody QuantifiableNumberList body)
+    public ResponseEntity<Numbers> findMaxNumbers(@Validated @RequestBody QuantifiableNumbers body)
     {
-        return ResponseEntity.ok().body(OperationHandler.getMaxNumbers(body));
+        var response = new Numbers();
+        QuantifiableNumbersValidations.quantifierSmallerThanNumbersSize(body, response);
+        if (response.error != null)
+        {
+            return ResponseEntity.badRequest().body(response);
+        }
+        
+        response.numbers = OperationHandler.getMaxNumbers(body);
+        return ResponseEntity.ok().body(response);
     }
     
     @PostMapping("/avg")
-    public ResponseEntity<Double> findNumbersAverage(@Validated @RequestBody NumberList body)
+    public ResponseEntity<Average> findNumbersAverage(@Validated @RequestBody arthursoares.dev.mathapi.models.requests.Numbers body)
     {
-        return ResponseEntity.ok().body(OperationHandler.getNumbersAverage(body));
+        var response = new Average();
+        NumbersValidations.numbersEmptyOrNull(body, response);
+        if (response.error != null)
+        {
+            return ResponseEntity.badRequest().body(response);
+        }
+        
+        response.average = OperationHandler.getNumbersAverage(body);
+        return ResponseEntity.ok().body(response);
     }
     
     @PostMapping("/median")
-    public ResponseEntity<Double> findNumbersMedian(@Validated @RequestBody NumberList body)
+    public ResponseEntity<Median> findNumbersMedian(@Validated @RequestBody arthursoares.dev.mathapi.models.requests.Numbers body)
     {
-        return ResponseEntity.ok().body(OperationHandler.getNumbersMedian(body));
+        var response = new Median();
+        NumbersValidations.numbersEmptyOrNull(body, response);
+        if (response.error != null)
+        {
+            return ResponseEntity.badRequest().body(response);
+        }
+        
+        response.median = OperationHandler.getNumbersMedian(body);
+        return ResponseEntity.ok().body(response);
     }
     
     @PostMapping("/percentile")
-    public ResponseEntity<Long> findNumbersPercentile(@Validated @RequestBody QuantifiableNumberList body)
+    public ResponseEntity<Percentile> findNumbersPercentile(@Validated @RequestBody QuantifiableNumbers body)
     {
-        return ResponseEntity.ok().body(OperationHandler.getNumbersPercentile(body));
+        var response = new Percentile();
+        NumbersValidations.numbersEmptyOrNull(body, response);
+        if (response.error != null)
+        {
+            return ResponseEntity.badRequest().body(response);
+        }
+        
+        response.percentile = OperationHandler.getNumbersPercentile(body);
+        return ResponseEntity.ok().body(response);
     }
 }
  
