@@ -42,4 +42,14 @@ public class OperationHandler {
         
         return numberList.numbers.get(listSize/2) * 1.0;
     }
+    
+    public static Long getNumbersPercentile(QuantifiableNumberList quantifiableNumberList)
+    {
+        Collections.sort(quantifiableNumberList.numbers);
+        var percentileIndex = (int) Math.round(
+                (quantifiableNumberList.numbers.size() *
+                        (quantifiableNumberList.quantifier / 100.0)) + .5) - 1;
+        
+        return quantifiableNumberList.numbers.get(percentileIndex);
+    }
 }
